@@ -542,10 +542,15 @@ run_mkinitcpio() {
     check_for_error
     
 	# Run Mkinitcpio command depending on kernel(s) installed
-	KERNEL=$(ls ${MOUNTPOINT}/boot/*.img | grep -v "fallback" | sed "s~${MOUNTPOINT}/boot/initramfs-~~g" | sed s/\.img//g | uniq)
-	for i in ${KERNEL}; do
+	#KERNEL=$(ls ${MOUNTPOINT}/boot/*.img | grep -v "fallback" | sed "s~${MOUNTPOINT}/boot/initramfs-~~g" | sed s/\.img//g | uniq)
+	#for i in ${KERNEL}; do
+		#
 		arch_chroot "mkinitcpio -p ${i}" 2>>/tmp/.errlog
-	done
+		arch_chroot "mkinitcpio -p linux" 2>>/tmp/.errlog
+		arch_chroot "mkinitcpio -p linux-lts" 2>>/tmp/.errlog
+		#arch_chroot "mkinitcpio -p ${i}" 2>>/tmp/.errlog
+
+	#done
 	check_for_error
  
 }
