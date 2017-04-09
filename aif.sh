@@ -2035,8 +2035,9 @@ install_ati(){
 			umount -l /mnt/dev
  
             # Load modules and enable vboxservice.
-            arch_chroot "modprobe -a vboxguest vboxsf vboxvideo"  
-            arch_chroot "systemctl enable vboxservice"
+            arch-chroot "pacman -S --noconfirm virtualbox-guest-iso"
+            arch_chroot "modprobe -a vboxguest vboxsf vboxvideo" 
+            arch_chroot "systemctl enable vboxservice.service"
             echo -e "vboxguest\nvboxsf\nvboxvideo" > ${MOUNTPOINT}/etc/modules-load.d/virtualbox.conf
              ;;
         "9") # VMWare
@@ -2102,8 +2103,8 @@ install_de_wm() {
 	"mate-extra" "-" off \
 	"mate-gtk3" "-" off \
 	"mate-extra-gtk3" "-" off \
-	"xfce4" "-" off \
-	"xfce4-goodies" "-" off \
+	"xfce4" "-" on \
+	"xfce4-goodies" "-" on \
 	"awesome + vicious" "-" off \
 	"fluxbox + fbnews" "-" off \
 	"i3-wm + i3lock + i3status" "-" off \
@@ -2530,7 +2531,7 @@ install_base_menu() {
 	fi
 
    dialog --default-item ${HIGHLIGHT_SUB} --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_InstBsMenuTitle " --menu "$_InstBseMenuBody" 0 0 5 \
- 	"1"	"$_PrepMirror" \
+ 	"1" "$_PrepMirror" \
  	"2" "$_PrepPacKey" \
  	"3" "$_InstBse" \
 	"4" "$_InstBootldr" \
@@ -2591,16 +2592,16 @@ config_base_menu() {
         "3") set_locale
              ;;        
         "4") set_timezone
-			 set_hw_clock
+	     set_hw_clock
              ;;
-		"5") set_root_password 
-			;;
-		"6") create_new_user
-			;;
-		"7") run_mkinitcpio
-			;;
+	"5") set_root_password 
+	     ;;
+	"6") create_new_user
+             ;;
+	"7") run_mkinitcpio
+	     ;;
           *) main_menu_online
-			;;
+	     ;;
     esac
     
     config_base_menu
@@ -2704,7 +2705,7 @@ edit_configs() {
    "6" "/etc/mkinitcpio.conf" \
    "7" "/etc/fstab" \
    "8" "/etc/crypttab" \
-   "9" "grub/syslinux/systemd-boot" \
+   "9" "/etc/default/grub" \
    "10" "lxdm/lightdm/sddm" \
    "11" "/etc/pacman.conf" \
    "12" "~/.xinitrc" \
@@ -2712,7 +2713,7 @@ edit_configs() {
 	
 	HIGHLIGHT_SUB=$(cat ${ANSWER})
 	case $(cat ${ANSWER}) in
-	    "1") [[ -e ${MOUNTPOINT}/etc/vconsole.conf ]] && FILE="${MOUNTPOINT}/etc/vconsole.conf"
+	"1") [[ -e ${MOUNTPOINT}/etc/vconsole.conf ]] && FILE="${MOUNTPOINT}/etc/vconsole.conf"
              ;;
         "2") [[ -e ${MOUNTPOINT}/etc/locale.conf ]] && FILE="${MOUNTPOINT}/etc/locale.conf" 
              ;;
@@ -2743,7 +2744,7 @@ edit_configs() {
             ;;
         "11") [[ -e ${MOUNTPOINT}/etc/pacman.conf ]] && FILE="${MOUNTPOINT}/etc/pacman.conf"
 			;;
-		"12") user_list=$(ls ${MOUNTPOINT}/home/ | sed "s/lost+found//")
+	"12") user_list=$(ls ${MOUNTPOINT}/home/ | sed "s/lost+found//")
 			  for i in ${user_list}; do
 				[[ -e ${MOUNTPOINT}/home/$i/.xinitrc ]] && FILE="$FILE ${MOUNTPOINT}/home/$i/.xinitrc"
 			  done
@@ -2771,9 +2772,9 @@ main_menu_online() {
 	"3" "$_ConfBseMenuTitle" \
 	"4" "$_InstGrMenuTitle" \
 	"5" "$_InstNMMenuTitle" \
-    "6" "$_InstMultMenuTitle" \
-    "7" "$_SecMenuTitle" \
-    "8" "$_SeeConfOptTitle" \
+	"6" "$_InstMultMenuTitle" \
+	"7" "$_SecMenuTitle" \
+	"8" "$_SeeConfOptTitle" \
 	"9" "$_Done" 2>${ANSWER}
 
     HIGHLIGHT=$(cat ${ANSWER})
@@ -2798,11 +2799,11 @@ main_menu_online() {
         "4") install_graphics_menu
              ;;
         "5") install_network_menu
-			;;
+	     ;;
         "6") install_multimedia_menu
-			;;
+	     ;;
         "7") security_menu
-			;;
+	     ;;
         "8") edit_configs
              ;;            
           *) dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --yesno "$_CloseInstBody" 0 0
@@ -2832,6 +2833,6 @@ select_language
 check_requirements
 greeting
 
-	while true; do
-          main_menu_online      
-    done
+while true; do
+	main_menu_online      
+done
