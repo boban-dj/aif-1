@@ -221,6 +221,7 @@ check_for_error() {
  if [[ $? -eq 1 ]] && [[ $(cat /tmp/.errlog | grep -i "error") != "" ]]; then
     dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_ErrTitle " --msgbox "$(cat /tmp/.errlog)" 0 0
     echo "" > /tmp/.errlog
+    sleep 3
     main_menu_online
  fi
    
@@ -545,11 +546,9 @@ run_mkinitcpio() {
 	#KERNEL=$(ls ${MOUNTPOINT}/boot/*.img | grep -v "fallback" | sed "s~${MOUNTPOINT}/boot/initramfs-~~g" | sed s/\.img//g | uniq)
 	#for i in ${KERNEL}; do
 		#
-		arch_chroot "mkinitcpio -p ${i}" 2>>/tmp/.errlog
-		arch_chroot "mkinitcpio -p linux" 2>>/tmp/.errlog
+	#	arch_chroot "mkinitcpio -p ${i}" 2>>/tmp/.errlog
 		arch_chroot "mkinitcpio -p linux-lts" 2>>/tmp/.errlog
-		#arch_chroot "mkinitcpio -p ${i}" 2>>/tmp/.errlog
-
+		arch_chroot "mkinitcpio -p linux" 2>>/tmp/.errlog
 	#done
 	check_for_error
  
@@ -1211,9 +1210,9 @@ luks_menu() {
 
 
 ######################################################################
-##																	##
-##             Logical Volume Management Functions			    	##
-##																	##
+##								    ##
+##             Logical Volume Management Functions		    ##
+##								    ##
 ######################################################################
 
 # LVM Detection.
@@ -1520,7 +1519,7 @@ install_base() {
 		
 		dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_InstBseTitle " --checklist "$_InstStandBseBody$_UseSpaceBar" 0 0 3 \
 		"linux" "-" on \
-		"linux-lts" "-" off \
+		"linux-lts" "-" on \
 		"base-devel" "-" on 2>${PACKAGES}
 	
 	# "Advanced" installation method
