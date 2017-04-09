@@ -517,7 +517,7 @@ create_new_user() {
         dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_ConfUsrNew " --infobox "$_NUsrSetBody" 0 0
         sleep 2
         # Create the user, set password, then remove temporary password file
-        arch_chroot "useradd ${USER} -m -g users -G wheel,storage,power,network,video,audio,lp -s /bin/bash" 2>/tmp/.errlog
+        arch_chroot "useradd ${USER} -m -g users -G wheel,storage,power,network,video,vboxusers,,audio,lp -s /bin/bash" 2>/tmp/.errlog
         check_for_error
         echo -e "${PASSWD}\n${PASSWD}" > /tmp/.passwd
         arch_chroot "passwd ${USER}" < /tmp/.passwd >/dev/null 2>/tmp/.errlog
@@ -530,7 +530,7 @@ create_new_user() {
       
 }
 
-run_mkinitcpio() {
+#run_mkinitcpio() {
 	
 #	clear
 
@@ -552,7 +552,7 @@ run_mkinitcpio() {
 	#done
 #	check_for_error
  
-}
+#}
 
 ######################################################################
 ##								    ##
@@ -2035,7 +2035,7 @@ install_ati(){
 			umount -l /mnt/dev
  
             # Load modules and enable vboxservice.
-            arch-chroot "pacman -S --noconfirm virtualbox-guest-iso"
+            arch-chroot "pacman -S --noconfirm virtualbox-guest-iso virtualbox-guest-dkms"
             arch_chroot "modprobe -a vboxguest vboxsf vboxvideo" 
             arch_chroot "systemctl enable vboxservice.service"
             echo -e "vboxguest\nvboxsf\nvboxvideo" > ${MOUNTPOINT}/etc/modules-load.d/virtualbox.conf
@@ -2568,7 +2568,7 @@ config_base_menu() {
 	   SUB_MENU="config_base_menu"
 	   HIGHLIGHT_SUB=1
 	else
-	   if [[ $HIGHLIGHT_SUB != 8 ]]; then
+	   if [[ $HIGHLIGHT_SUB != 7 ]]; then
 	      HIGHLIGHT_SUB=$(( HIGHLIGHT_SUB + 1 ))
 	   fi
 	fi
@@ -2580,8 +2580,7 @@ config_base_menu() {
 	"4" "$_ConfBseTimeHC" \
 	"5" "$_ConfUsrRoot" \
 	"6" "$_ConfUsrNew" \
-	"7" "$_MMRunMkinit" \
-	"8" "$_Back" 2>${ANSWER}	
+	"7" "$_Back" 2>${ANSWER}	
 	
 	HIGHLIGHT_SUB=$(cat ${ANSWER})
 	case $(cat ${ANSWER}) in
@@ -2598,8 +2597,6 @@ config_base_menu() {
 	     ;;
 	"6") create_new_user
              ;;
-	"7") run_mkinitcpio
-	     ;;
           *) main_menu_online
 	     ;;
     esac
