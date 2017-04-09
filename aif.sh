@@ -2103,8 +2103,8 @@ install_de_wm() {
 	"mate-extra" "-" off \
 	"mate-gtk3" "-" off \
 	"mate-extra-gtk3" "-" off \
-	"xfce4" "-" on \
-	"xfce4-goodies" "-" on \
+	"xfce4" "-" off \
+	"xfce4-goodies" "-" off \
 	"awesome + vicious" "-" off \
 	"fluxbox + fbnews" "-" off \
 	"i3-wm + i3lock + i3status" "-" off \

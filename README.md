@@ -9,7 +9,7 @@ bugs:
 
 - dont run mkinitcpio, when installing grub it runs mkinitcpio
 - check 2041 for vbox driver and modules
-- OK:add user to vbox group
+- OK add user to vbox group
 - check /etc/hosts file
 
 
@@ -22,6 +22,8 @@ todo:
 - add BK with config files
 - add pacman installed list
 - add pacaur installed list
+  package_install "zip unzip unrar p7zip lzop cpio"
+
 
 - review config files:
 
