@@ -532,25 +532,25 @@ create_new_user() {
 
 run_mkinitcpio() {
 	
-	clear
+#	clear
 
-	KERNEL=""
+#	KERNEL=""
 
 	# If LVM and/or LUKS used, add the relevant hook(s)
-	([[ $LVM -eq 1 ]] && [[ $LUKS -eq 0 ]]) && sed -i 's/block filesystems/block lvm2 filesystems/g' ${MOUNTPOINT}/etc/mkinitcpio.conf 2>/tmp/.errlog
-    ([[ $LVM -eq 1 ]] && [[ $LUKS -eq 1 ]]) && sed -i 's/block filesystems/block encrypt lvm2 filesystems/g' ${MOUNTPOINT}/etc/mkinitcpio.conf 2>/tmp/.errlog
-    ([[ $LVM -eq 0 ]] && [[ $LUKS -eq 1 ]]) && sed -i 's/block filesystems/block encrypt filesystems/g' ${MOUNTPOINT}/etc/mkinitcpio.conf 2>/tmp/.errlog
-    check_for_error
+#	([[ $LVM -eq 1 ]] && [[ $LUKS -eq 0 ]]) && sed -i 's/block filesystems/block lvm2 filesystems/g' ${MOUNTPOINT}/etc/mkinitcpio.conf 2>/tmp/.errlog
+#    ([[ $LVM -eq 1 ]] && [[ $LUKS -eq 1 ]]) && sed -i 's/block filesystems/block encrypt lvm2 filesystems/g' ${MOUNTPOINT}/etc/mkinitcpio.conf 2>/tmp/.errlog
+#    ([[ $LVM -eq 0 ]] && [[ $LUKS -eq 1 ]]) && sed -i 's/block filesystems/block encrypt filesystems/g' ${MOUNTPOINT}/etc/mkinitcpio.conf 2>/tmp/.errlog
+#    check_for_error
     
 	# Run Mkinitcpio command depending on kernel(s) installed
 	#KERNEL=$(ls ${MOUNTPOINT}/boot/*.img | grep -v "fallback" | sed "s~${MOUNTPOINT}/boot/initramfs-~~g" | sed s/\.img//g | uniq)
 	#for i in ${KERNEL}; do
 		#
 	#	arch_chroot "mkinitcpio -p ${i}" 2>>/tmp/.errlog
-		arch_chroot "mkinitcpio -p linux-lts" 2>>/tmp/.errlog
-		arch_chroot "mkinitcpio -p linux" 2>>/tmp/.errlog
+#		arch_chroot "mkinitcpio -p linux-lts" 2>>/tmp/.errlog
+#		arch_chroot "mkinitcpio -p linux" 2>>/tmp/.errlog
 	#done
-	check_for_error
+#	check_for_error
  
 }
 
@@ -1611,6 +1611,17 @@ bios_bootloader() {
 			if [[ $DEVICE != "" ]]; then
 				dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Grub-install " --infobox "$_PlsWaitBody" 0 0
 				arch_chroot "grub-install --target=i386-pc --recheck $DEVICE" 2>/tmp/.errlog
+			
+				## added bob for mkinitcpio problem
+				# Run Mkinitcpio command depending on kernel(s) installed
+				#KERNEL=$(ls ${MOUNTPOINT}/boot/*.img | grep -v "fallback" | sed "s~${MOUNTPOINT}/boot/initramfs-~~g" | sed s/\.img//g | uniq)
+				#for i in ${KERNEL}; do
+				
+				#arch_chroot "mkinitcpio -p ${i}" 2>>/tmp/.errlog
+				arch_chroot "mkinitcpio -p linux-lts" 2>>/tmp/.errlog
+				arch_chroot "mkinitcpio -p linux" 2>>/tmp/.errlog
+				#done
+				check_for_error	
 				
 				# if /boot is LVM (whether using a seperate /boot mount or not), amend grub
 				if ( [[ $LVM -eq 1 ]] && [[ $LVM_SEP_BOOT -eq 0 ]] ) || [[ $LVM_SEP_BOOT -eq 2 ]]; then
