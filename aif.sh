@@ -11,42 +11,42 @@
 
 
 
-######################################################################
-##																	##
-##                   Installer Variables							##
-##																	##
-######################################################################
+#######################################################################
+##								     ##
+##                   Installer Variables			     ##
+##								     ##
+#######################################################################
 
 # Temporary files to store menu selections
 ANSWER="/tmp/.aif"				# Basic menu selections
-PACKAGES="/tmp/.pkgs"			# Packages to install
-MOUNT_OPTS="/tmp/.mnt_opts" 	# Filesystem Mount options
+PACKAGES="/tmp/.pkgs"				# Packages to install
+MOUNT_OPTS="/tmp/.mnt_opts" 			# Filesystem Mount options
 
 # Save retyping
 VERSION="Architect Installation Framework 2.3.1"
 
 # Installation
-DM_INST=""							# Which DMs have been installed?
-DM_ENABLED=0						# Has a display manager been enabled?
-NM_INST=""							# Which NMs have been installed?
-NM_ENABLED=0						# Has a network connection manager been enabled?
+DM_INST=""					# Which DMs have been installed?
+DM_ENABLED=0					# Has a display manager been enabled?
+NM_INST=""					# Which NMs have been installed?
+NM_ENABLED=0					# Has a network connection manager been enabled?
 KERNEL="n"                			# Kernel(s) installed (base install); kernels for mkinitcpio
-GRAPHIC_CARD=""						# graphics card
-INTEGRATED_GC=""					# Integrated graphics card for NVIDIA
+GRAPHIC_CARD=""					# graphics card
+INTEGRATED_GC=""				# Integrated graphics card for NVIDIA
 NVIDIA_INST=0         				# Indicates if NVIDIA proprietary driver has been installed
-NVIDIA=""							# NVIDIA driver(s) to install depending on kernel(s)
-VB_MOD=""							# headers packages to install depending on kernel(s)
+NVIDIA=""					# NVIDIA driver(s) to install depending on kernel(s)
+VB_MOD=""					# headers packages to install depending on kernel(s)
 SHOW_ONCE=0           				# Show de_wm information only once
-COPY_PACCONF=0						# Copy over installer /etc/pacman.conf to installed system?
+COPY_PACCONF=0					# Copy over installer /etc/pacman.conf to installed system?
 
 # Mounting
 MOUNTPOINT="/mnt"       			# Installation: Root mount
-MOUNT=""							# Installation: All other mounts branching from Root
-FS_OPTS=""							# File system special mount options available
-CHK_NUM=16							# Used for FS mount options checklist length
-INCLUDE_PART='part\|lvm\|crypt'		# Partition types to include for display and selection.
+MOUNT=""					# Installation: All other mounts branching from Root
+FS_OPTS=""					# File system special mount options available
+CHK_NUM=16					# Used for FS mount options checklist length
+INCLUDE_PART='part\|lvm\|crypt'			# Partition types to include for display and selection.
 ROOT_PART=""          				# ROOT partition
-UEFI_PART=""						# UEFI partition
+UEFI_PART=""					# UEFI partition
 UEFI_MOUNT=""         				# UEFI mountpoint (/boot or /boot/efi)
 
 # Architecture
@@ -69,14 +69,14 @@ VG_SIZE_TYPE=""         			# Is VG in Gigabytes or Megabytes?
 
 # LUKS
 LUKS=0                  			# Luks Used?
-LUKS_DEV=""							# If encrypted, partition
-LUKS_NAME=""						# Name given to encrypted partition
-LUKS_UUID=""						# UUID used for comparison purposes
-LUKS_OPT=""							# Default or user-defined?
+LUKS_DEV=""					# If encrypted, partition
+LUKS_NAME=""					# Name given to encrypted partition
+LUKS_UUID=""					# UUID used for comparison purposes
+LUKS_OPT=""					# Default or user-defined?
 
 # Locale and Language
-CURR_LOCALE="en_US.UTF-8"   		# Default Locale
-FONT=""                     		# Set new font if necessary
+CURR_LOCALE="en_US.UTF-8"   			# Default Locale
+FONT=""                   	  		# Set new font if necessary
 KEYMAP="us"          				# Virtual console keymap. Default is "us"
 XKBMAP="us"      	    			# X11 keyboard layout. Default is "us"
 ZONE=""               				# For time
@@ -85,58 +85,52 @@ LOCALE="en_US.UTF-8"  				# System locale. Default is "en_US.UTF-8"
 
 
 # Edit Files
-FILE=""                     		# File(s) to be reviewed
+FILE=""                     			# File(s) to be reviewed
 
 ######################################################################
-##																	##
-##                        Core Functions							##
-##																	##
+##								    ##
+##                        Core Functions			    ##
+##							            ##
 ######################################################################
 
 # Add locale on-the-fly and sets source translation file for installer
 select_language() {
     
-    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Select Language " --menu "\nLanguage / sprache / taal / språk / lingua / idioma / nyelv / língua" 0 0 9 \
+    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Select Language " --menu "\nLanguage" 0 0 9 \
  	"1" $"English            (en_**)" \
-	"2" $"Español            (es_ES)" \
-	"3" $"Português [Brasil] (pt_BR)" \
-	"4" $"Português          (pt_PT)" \
-	"5" $"Français           (fr_FR)" \
 	"6" $"Russkiy            (ru_RU)" \
-	"7" $"Italiano           (it_IT)" \
-	"8" $"Nederlands         (nl_NL)" \
-	"9" $"Magyar             (hu_HU)" 2>${ANSWER}
+	"8" $"Nederlands         (nl_NL)" 2>${ANSWER}
 
 	case $(cat ${ANSWER}) in
         "1") source /aif-master/english.trans
              CURR_LOCALE="en_US.UTF-8"
              ;;
-        "2") source /aif-master/spanish.trans
-             CURR_LOCALE="es_ES.UTF-8"
-             ;; 
-        "3") source /aif-master/portuguese_brasil.trans
-			 CURR_LOCALE="pt_BR.UTF-8"
-			 ;;
-        "4") source /aif-master/portuguese.trans
-			 CURR_LOCALE="pt_PT.UTF-8"
-			 ;;		
-		"5") source /aif-master/french.trans
-             CURR_LOCALE="fr_FR.UTF-8"
-             ;;	 
+#        "2") source /aif-master/spanish.trans
+#             CURR_LOCALE="es_ES.UTF-8"
+#             ;; 
+#        "3") source /aif-master/portuguese_brasil.trans
+#	     CURR_LOCALE="pt_BR.UTF-8"
+#	     ;;
+#        "4") source /aif-master/portuguese.trans
+#	     CURR_LOCALE="pt_PT.UTF-8"
+#	     ;;		
+#	"5") source /aif-master/french.trans
+#             CURR_LOCALE="fr_FR.UTF-8"
+#             ;;	 
         "6") source /aif-master/russian.trans
              CURR_LOCALE="ru_RU.UTF-8"
              FONT="LatKaCyrHeb-14.psfu"
              ;;
-        "7") source /aif-master/italian.trans
-             CURR_LOCALE="it_IT.UTF-8"
-             ;;
+#        "7") source /aif-master/italian.trans
+#             CURR_LOCALE="it_IT.UTF-8"
+#             ;;
         "8") source /aif-master/dutch.trans
              CURR_LOCALE="nl_NL.UTF-8"
              ;;
-        "9") source /aif-master/hungarian.trans
-             CURR_LOCALE="hu_HU.UTF-8"
-             FONT="lat2-16.psfu"
-             ;;
+#       "9") source /aif-master/hungarian.trans
+#             CURR_LOCALE="hu_HU.UTF-8"
+#             FONT="lat2-16.psfu"
+#             ;;
 #        "4") source /aif-dev-master/turkish.trans
 #             CURR_LOCALE="tr_TR.UTF-8"
 #             FONT="LatKaCyrHeb-14.psfu"
@@ -258,11 +252,11 @@ show_devices() {
      dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_DevShowOpt " --textbox /tmp/.devlist 0 0
 }
 
-######################################################################
-##																	##
-##                 Configuration Functions							##
-##																	##
-######################################################################
+#######################################################################
+##								     ##
+##                 Configuration Functions			     ##
+##								     ##
+#######################################################################
 
 
 # Originally adapted from AIS. Added option to allow users to edit the mirrorlist.
@@ -557,9 +551,9 @@ run_mkinitcpio() {
 }
 
 ######################################################################
-##																	##
-##            System and Partitioning Functions						##
-##																	##
+##								    ##
+##            System and Partitioning Functions			    ##
+##								    ##
 ######################################################################
 
 
@@ -972,7 +966,7 @@ make_swap(){
 
 }
 	####								####
-	#### MOUNTING FUNCTION BEGINS HERE  ####
+	#### MOUNTING FUNCTION BEGINS HERE  				####
 	####								####
 
 	# prep variables
@@ -1076,9 +1070,9 @@ make_swap(){
 }	
 
 ######################################################################
-##																	##
-##             Encryption (dm_crypt) Functions				    	##
-##																	##
+##								    ##
+##             Encryption (dm_crypt) Functions			    ##
+##								    ##
 ######################################################################
 
 # Had to write it in this way due to (bash?) bug(?), as if/then statements in a single
@@ -1309,9 +1303,9 @@ check_lv_size() {
 
 }
 
-	#							#
+	#				#
 	# LVM Create Starts Here	#
-	#							#
+	#				#
 
 	# Prep Variables
 	LVM_VG=""
@@ -1486,16 +1480,16 @@ lvm_menu(){
 		"$_LvmCreateVG")	lvm_create ;;
 		"$_LvmDelVG") 		lvm_del_vg ;;
 		"$_LvMDelAll") 		lvm_del_all ;;
-		*) 					prep_menu ;;
+		*) 			prep_menu ;;
 	esac
 
 
 }
 
 ######################################################################
-##																	##
-##                    Installation Functions						##
-##																	##
+##								    ##
+##                    Installation Functions			    ##
+##								    ##
 ######################################################################	
 
 # The linux kernel package will be removed from the base group as it and/or the lts version will be
@@ -1731,9 +1725,9 @@ uefi_bootloader() {
 	fi
 
 }
-	#									#
+	#					#
 	# Bootloader function begins here	#
-	#									#
+	#					#
     check_mount
     # Set the default PATH variable
     arch_chroot "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/core_perl" 2>/tmp/.errlog
@@ -1785,7 +1779,7 @@ install_cups(){
 
 	dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_InstNMMenuCups " --checklist "$_InstCupsBody\n\n$_UseSpaceBar" 0 0 11 \
 	"cups" "-" on \
-	"cups-pdf" "-" off \
+	"cups-pdf" "-" on \
 	"ghostscript" "-" on \
 	"gsfonts" "-" on \
 	"samba" "-" off 2>${PACKAGES}
@@ -2451,9 +2445,9 @@ security_menu(){
 }
 
 ######################################################################
-##																	##
-##                 Main Interfaces       							##
-##																	##
+##								    ##
+##                 Main Interfaces       		            ##
+##								    ##
 ######################################################################
 
 # Greet the user when first starting the installer
@@ -2614,23 +2608,23 @@ install_graphics_menu() {
 	"2" "$_InstGrMenuDD" \
 	"3" "$_InstGrMenuGE" \
 	"4" "$_InstGrMenuDM" \
-	"5"	"$_PrepKBLayout" \
+	"5" "$_PrepKBLayout" \
 	"6" "$_Back" 2>${ANSWER}
 
 	HIGHLIGHT_SUB=$(cat ${ANSWER})
 	case $(cat ${ANSWER}) in
         "1") install_xorg_input
 			;;
-		"2") setup_graphics_card 
+	"2") setup_graphics_card 
              ;;
         "3") install_de_wm
              ;;
         "4") install_dm
              ;;
-		"5") set_xkbmap
-			;;
+	"5") set_xkbmap
+	     ;;
           *) main_menu_online
-			;;
+	     ;;
     esac
     
     install_graphics_menu
@@ -2814,9 +2808,9 @@ main_menu_online() {
 }
 
 ######################################################################
-##																	##
-##                        Execution     							##
-##																	##
+##							            ##
+##                        Execution     			    ##
+##								    ##
 ######################################################################
 id_system
 select_language
