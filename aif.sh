@@ -2,7 +2,6 @@
 #
 # Architect Installation Framework (version 2.3.1 - 26-Mar-2016)
 #
-# Written by Carl Duff for Architect Linux
 #
 # This program is free software, provided under the GNU General Public License
 # as published by the Free Software Foundation. So feel free to copy, distribute,
@@ -23,7 +22,7 @@ PACKAGES="/tmp/.pkgs"				# Packages to install
 MOUNT_OPTS="/tmp/.mnt_opts" 			# Filesystem Mount options
 
 # Save retyping
-VERSION="Architect Installation Framework 2.3.1"
+VERSION="Architect Installation Framework 2.3.1 B-P"
 
 # Installation
 DM_INST=""					# Which DMs have been installed?
@@ -97,9 +96,9 @@ FILE=""                     			# File(s) to be reviewed
 select_language() {
     
     dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Select Language " --menu "\nLanguage" 0 0 9 \
- 	"1" $"English            (en_**)" \
-	"6" $"Russkiy            (ru_RU)" \
-	"8" $"Nederlands         (nl_NL)" 2>${ANSWER}
+ 	"1" $"English            (en_**)" 2>${ANSWER}
+	#"6" $"Russkiy            (ru_RU)" \
+	#"8" $"Nederlands         (nl_NL)" 2>${ANSWER}
 
 	case $(cat ${ANSWER}) in
         "1") source /aif-master/english.trans
@@ -117,16 +116,16 @@ select_language() {
 #	"5") source /aif-master/french.trans
 #             CURR_LOCALE="fr_FR.UTF-8"
 #             ;;	 
-        "6") source /aif-master/russian.trans
-             CURR_LOCALE="ru_RU.UTF-8"
-             FONT="LatKaCyrHeb-14.psfu"
-             ;;
+#        "6") source /aif-master/russian.trans
+#             CURR_LOCALE="ru_RU.UTF-8"
+#             FONT="LatKaCyrHeb-14.psfu"
+#             ;;
 #        "7") source /aif-master/italian.trans
 #             CURR_LOCALE="it_IT.UTF-8"
 #             ;;
-        "8") source /aif-master/dutch.trans
-             CURR_LOCALE="nl_NL.UTF-8"
-             ;;
+#        "8") source /aif-master/dutch.trans
+#             CURR_LOCALE="nl_NL.UTF-8"
+#             ;;
 #       "9") source /aif-master/hungarian.trans
 #             CURR_LOCALE="hu_HU.UTF-8"
 #             FONT="lat2-16.psfu"
@@ -517,7 +516,7 @@ create_new_user() {
         dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_ConfUsrNew " --infobox "$_NUsrSetBody" 0 0
         sleep 2
         # Create the user, set password, then remove temporary password file
-        arch_chroot "useradd ${USER} -m -g users -G wheel,storage,power,network,video,vboxusers,,audio,lp -s /bin/bash" 2>/tmp/.errlog
+        arch_chroot "useradd ${USER} -m -g users -G wheel,storage,power,network,video,audio,lp -s /bin/bash" 2>/tmp/.errlog
         check_for_error
         echo -e "${PASSWD}\n${PASSWD}" > /tmp/.passwd
         arch_chroot "passwd ${USER}" < /tmp/.passwd >/dev/null 2>/tmp/.errlog
@@ -1867,11 +1866,11 @@ install_xorg_input() {
 	"xorg-server-common" "-" off \
 	"xorg-server-utils" "-" on \
 	"xorg-xinit" "-" on \
-	"xorg-server-xwayland" "-" off \
+	"xorg-server-xwayland" "-" on \
 	"xf86-input-evdev" "-" off \
 	"xf86-input-joystick" "-" off \
 	"xf86-input-keyboard" "-" on \
-	"xf86-input-libinput" "-" off \
+	"xf86-input-libinput" "-" on \
 	"xf86-input-mouse" "-" on \
 	"xf86-input-synaptics" "-" on 2>${PACKAGES}
 
@@ -2429,7 +2428,7 @@ security_menu(){
 				fi
 			fi
 			;;
-		"2") # core dump
+	"2") # core dump
 			 dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_SecCoreTitle " --menu "$_SecCoreBody" 0 0 2 \
 			"$_Disable" "Storage=none" "$_Edit" "/etc/systemd/coredump.conf" 2>${ANSWER}
 			
@@ -2703,7 +2702,7 @@ edit_configs() {
    "7" "/etc/fstab" \
    "8" "/etc/crypttab" \
    "9" "/etc/default/grub" \
-   "10" "lxdm/lightdm/sddm" \
+   "10" "etc/lightdm/lightdm.conf" \
    "11" "/etc/pacman.conf" \
    "12" "~/.xinitrc" \
    "13" "$_Back" 2>${ANSWER}
