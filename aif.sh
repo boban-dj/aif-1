@@ -97,7 +97,7 @@ FILE=""                     			# File(s) to be reviewed
 select_language() {
     
     dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Select Language " --menu "\nLanguage / sprache / taal / språk / lingua / idioma / nyelv / língua" 0 0 9 \
- 	"1" $"English            (en_**)" \
+ 	"1" $"English            (en_US)" \
 	"2" $"Español            (es_ES)" \
 	"3" $"Português [Brasil] (pt_BR)" \
 	"4" $"Português          (pt_PT)" \
