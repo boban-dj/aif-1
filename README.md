@@ -1,5 +1,7 @@
 # aif-master
 
+WORK in PROGRESS.
+
 Run an official Archlinux iso, inside root:
 git clone the repo in /
 then run ./aif.sh and follow the instructions
@@ -36,4 +38,25 @@ in /etc/pacman.conf uncomment, then upgrade: pacman -Syu
 - android, gimp plugins
 - add user: printadmin (cups),vboxusers (vbox), uucp (android)
 	tty lp wheel uucp http lock users vboxusers docker wireshark adbusers autologin printadmin sdkusers
+
+
+
+Notes:
+- Wireless not working: must install wicd-gtk python2-notify
+- problems wireless
+
+		Apr 11 20:37:28 arch2570 kernel: kvm: disabled by bios
+		Apr 11 20:37:28 arch2570 kernel: b43-phy0 ERROR: Firmware file "b43/ucode30_mimo.fw" not found
+		Apr 11 20:37:28 arch2570 kernel: b43-phy0 ERROR: Firmware file "b43-open/ucode30_mimo.fw" not found
+		Apr 11 20:37:28 arch2570 kernel: b43-phy0 ERROR: You must go to http://wireless.kernel.org/en/users/Driv
+		Apr 11 20:47:29 arch2570 systemd[1]: Failed to start Wicd a wireless and wired network manager for Linux
+		Apr 11 20:49:05 arch2570 systemd[1]: Failed to start Wicd a wireless and wired network manager for Linux
+
+- pacaur -S b43-firmware
+
+- blacklist beep: 
+		echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf
+		rmmod pcspkr
+- grub themes not working: typo: theme/txt vs theme.txt
+- login strange? -enable in bios VK virtual machines
 
