@@ -2,6 +2,7 @@
 #
 # Architect Installation Framework (version 2.3.1 - 26-Mar-2016)
 #
+# Written by Boban for Architect Linux
 #
 # This program is free software, provided under the GNU General Public License
 # as published by the Free Software Foundation. So feel free to copy, distribute,
@@ -95,41 +96,47 @@ FILE=""                     			# File(s) to be reviewed
 # Add locale on-the-fly and sets source translation file for installer
 select_language() {
     
-    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Select Language " --menu "\nLanguage" 0 0 9 \
- 	"1" $"English            (en_**)" 2>${ANSWER}
-	#"6" $"Russkiy            (ru_RU)" \
-	#"8" $"Nederlands         (nl_NL)" 2>${ANSWER}
+    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Select Language " --menu "\nLanguage / sprache / taal / språk / lingua / idioma / nyelv / língua" 0 0 9 \
+ 	"1" $"English            (en_**)" \
+	"2" $"Español            (es_ES)" \
+	"3" $"Português [Brasil] (pt_BR)" \
+	"4" $"Português          (pt_PT)" \
+	"5" $"Français           (fr_FR)" \
+	"6" $"Russkiy            (ru_RU)" \
+	"7" $"Italiano           (it_IT)" \
+	"8" $"Nederlands         (nl_NL)" \
+	"9" $"Magyar             (hu_HU)" 2>${ANSWER}
 
 	case $(cat ${ANSWER}) in
         "1") source /aif-master/english.trans
              CURR_LOCALE="en_US.UTF-8"
              ;;
-#        "2") source /aif-master/spanish.trans
-#             CURR_LOCALE="es_ES.UTF-8"
-#             ;; 
-#        "3") source /aif-master/portuguese_brasil.trans
-#	     CURR_LOCALE="pt_BR.UTF-8"
-#	     ;;
-#        "4") source /aif-master/portuguese.trans
-#	     CURR_LOCALE="pt_PT.UTF-8"
-#	     ;;		
-#	"5") source /aif-master/french.trans
-#             CURR_LOCALE="fr_FR.UTF-8"
-#             ;;	 
-#        "6") source /aif-master/russian.trans
-#             CURR_LOCALE="ru_RU.UTF-8"
-#             FONT="LatKaCyrHeb-14.psfu"
-#             ;;
-#        "7") source /aif-master/italian.trans
-#             CURR_LOCALE="it_IT.UTF-8"
-#             ;;
-#        "8") source /aif-master/dutch.trans
-#             CURR_LOCALE="nl_NL.UTF-8"
-#             ;;
-#       "9") source /aif-master/hungarian.trans
-#             CURR_LOCALE="hu_HU.UTF-8"
-#             FONT="lat2-16.psfu"
-#             ;;
+        "2") source /aif-master/spanish.trans
+             CURR_LOCALE="es_ES.UTF-8"
+             ;; 
+        "3") source /aif-master/portuguese_brasil.trans
+	     CURR_LOCALE="pt_BR.UTF-8"
+	     ;;
+        "4") source /aif-master/portuguese.trans
+	     CURR_LOCALE="pt_PT.UTF-8"
+	     ;;		
+	     "5") source /aif-master/french.trans
+             CURR_LOCALE="fr_FR.UTF-8"
+             ;;	 
+        "6") source /aif-master/russian.trans
+             CURR_LOCALE="ru_RU.UTF-8"
+             FONT="LatKaCyrHeb-14.psfu"
+             ;;
+        "7") source /aif-master/italian.trans
+             CURR_LOCALE="it_IT.UTF-8"
+             ;;
+        "8") source /aif-master/dutch.trans
+             CURR_LOCALE="nl_NL.UTF-8"
+             ;;
+        "9") source /aif-master/hungarian.trans
+             CURR_LOCALE="hu_HU.UTF-8"
+             FONT="lat2-16.psfu"
+             ;;
 #        "4") source /aif-dev-master/turkish.trans
 #             CURR_LOCALE="tr_TR.UTF-8"
 #             FONT="LatKaCyrHeb-14.psfu"
