@@ -108,32 +108,32 @@ select_language() {
 	"9" $"Magyar             (hu_HU)" 2>${ANSWER}
 
 	case $(cat ${ANSWER}) in
-        "1") source ./english.trans
+        "1") source ./languages/english.trans
              CURR_LOCALE="en_US.UTF-8"
              ;;
-        "2") source /aif-master/spanish.trans
+        "2") source ./languages/spanish.trans
              CURR_LOCALE="es_ES.UTF-8"
              ;; 
-        "3") source /aif-master/portuguese_brasil.trans
-	     CURR_LOCALE="pt_BR.UTF-8"
-	     ;;
-        "4") source /aif-master/portuguese.trans
-	     CURR_LOCALE="pt_PT.UTF-8"
-	     ;;		
-	     "5") source /aif-master/french.trans
+        "3") source ./languages/portuguese_brasil.trans
+	     		 CURR_LOCALE="pt_BR.UTF-8"
+	     		 ;;
+        "4") source ./languages/portuguese.trans
+	     		 CURR_LOCALE="pt_PT.UTF-8"
+	    		 ;;		
+	     "5") source ./languages/french.trans
              CURR_LOCALE="fr_FR.UTF-8"
              ;;	 
-        "6") source /aif-master/russian.trans
+        "6") source ./languages/russian.trans
              CURR_LOCALE="ru_RU.UTF-8"
              FONT="LatKaCyrHeb-14.psfu"
              ;;
-        "7") source /aif-master/italian.trans
+        "7") source ./languages/italian.trans
              CURR_LOCALE="it_IT.UTF-8"
              ;;
-        "8") source /aif-master/dutch.trans
+        "8") source ./languages/dutch.trans
              CURR_LOCALE="nl_NL.UTF-8"
              ;;
-        "9") source /aif-master/hungarian.trans
+        "9") source ./languages/hungarian.trans
              CURR_LOCALE="hu_HU.UTF-8"
              FONT="lat2-16.psfu"
              ;;
@@ -1871,7 +1871,7 @@ install_xorg_input() {
 	"wayland" "-" off \
 	"xorg-server" "-" on \
 	"xorg-server-common" "-" off \
-	"xorg-server-utils" "-" on \
+	"xorg-apps" "-" on \
 	"xorg-xinit" "-" on \
 	"xorg-server-xwayland" "-" on \
 	"xf86-input-evdev" "-" off \
@@ -2041,7 +2041,7 @@ install_ati(){
 			umount -l /mnt/dev
  
             # Load modules and enable vboxservice.
-            arch-chroot "pacman -S --noconfirm virtualbox-guest-iso virtualbox-guest-dkms"
+            arch-chroot "pacman -S --noconfirm virtualbox-guest-iso virtualbox-guest-dkms virtualbox-guest-utils xf86-video-vesa"
             arch_chroot "modprobe -a vboxguest vboxsf vboxvideo" 
             arch_chroot "systemctl enable vboxservice.service"
             echo -e "vboxguest\nvboxsf\nvboxvideo" > ${MOUNTPOINT}/etc/modules-load.d/virtualbox.conf
