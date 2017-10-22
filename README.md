@@ -39,12 +39,9 @@ then run ./aif.sh and follow the instructions
 - xargs -a Packages pacaur -S --noconfirm --needed
 - xargs -a Packages.AUR pacaur -S --noconfirm --needed
 - copy dotfiles `~`, and to `/root`
-- i3 config and i3status change to reflect enp0s3 or whatever.
+- i3 config and i3status change to reflect `enp0s3` or whatever.
 - icons `i3status.conf`
-- disable dhcpcd (wicd is the manager)
-
-
-
+- disable `dhcpcd` (wicd is the manager)
 
 ## GRUB
 
@@ -52,15 +49,15 @@ then run ./aif.sh and follow the instructions
 - vbox resolution: `/etc/default/grub`: `GRUB_GFXMODE="1360x768x24"` 
 - grub: `/etc/default/grub`: `GRUB_DISABLE_SUBMENU=y`
 - grub theme: `/etc/default/grub` : `GRUB_THEME="/boot/grub/themes/Archxion/theme.txt"`
-- regenerate grub.cfg: `sudo grub-mkconfig -o /boot/grub/grub.cfg`
+- regenerate `grub.cfg`: `sudo grub-mkconfig -o /boot/grub/grub.cfg`
 
 ## install notes VBOX (Guest):
 - vbox-guest for LTS kernel: `pacman -S virtualbox-guest-utils xorg-xinit virtualbox-guest-dkms`
 - for vbox install archlinux guide: <http://www.cs.columbia.edu/~jae/4118-LAST/arch-setup-2016-1.html>
 - <https://wiki.archlinux.org/index.php/VirtualBox#Installation_steps_for_Arch_Linux_guests>
-- Enable Shared folder in HOST. (Vbox interface)
-- In GUEST add $USER to group for Shared Folder:
-the `virtualbox-guest-utils` package created a group `vboxsf`; your username must be in vboxsf group.
+- Enable Shared folder in `HOST`. (Vbox interface)
+- In `GUEST` add `$USER` to group for Shared Folder:
+the `virtualbox-guest-utils` package created a group `vboxsf`; your username must be in `vboxsf` group.
 		
 		sudo gpasswd -a boban vboxsf
 		(or `sudo usermod -aG vboxsf boban`)??
