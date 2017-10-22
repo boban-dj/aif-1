@@ -1,0 +1,14 @@
+main:
+  color: '#FFFFFF'
+blocks:
+  - name: date    # show the current date/time e.g. Dec 19 12:34:56 
+    type: date    # use the builtin type date 
+    label: 📆      # label for the block 
+    interval: 1   # update interval in seconds 
+    format: MMM DD HH:mm:ss  # format string, see http://momentjs.com/docs/#/parsing/string-format/ 
+    click: gnome-calendar # open the gnome calendar on mouse clicks 
+  - name: user      # name the block user 
+    type: username  # builtin type username 
+    label: 👤        # label for the block 
+    interval: 600    # update interval in seconds 
+    color: '#FF0000' # show username in red 

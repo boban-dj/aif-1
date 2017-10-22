@@ -1,0 +1,19 @@
+#30-screen.conf
+Section "Monitor"
+	Identifier      "DV-I-1"
+	Option          "Primary"       "true"
+EndSection
+
+Section "Monitor"
+	Identifier      "DP-0"
+	Option          "RightOf"       "DV-I-1"
+EndSection
+
+Section "Device"
+	Identifier	"Device0"
+	Driver		"nvidia"
+	VendorName	"NVIDIA Corporation"
+	BoardName	"Quadro FX 4800"
+	Option      "Monitor0" "DVI-I-1"
+	Option      "Monitor1" "DP-0"
+EndSection

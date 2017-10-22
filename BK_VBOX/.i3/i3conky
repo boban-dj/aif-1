@@ -1,0 +1,33 @@
+background    	no
+out_to_console 	yes
+out_to_x		no
+update_interval	2
+total_run_times	0
+short_units		yes
+pad_percents	3
+override_utf8_locale yes
+# number of cpu samples to average
+# set to 1 to disable averaging
+cpu_avg_samples 2
+
+# Network interface must have an ip address to be considered up
+if_up_strictness address
+
+TEXT
+[
+
+{"full_text" : " ${fs_free /home} Free" , "color" : "\#00AF00" },
+{"full_text" : "disk","icon": "/home/boban/.i3/xbmicons/fs_01.xbm","color": "\#CB4B16","full_text": "/  ${fs_used_perc /}% "},
+#{"full_text" : " RAM ${mem}/${memmax} (${memperc}%) ", "color": "\#67CDCE", "background": "\#747474"}, 
+{"full_text" : " RAM ${memperc}%" , "color" : ${if_match ${memperc}<90}"\#ffffff"${else}"\#FF9B9E"${endif} },
+{"full_text" : "uptime","icon": "/home/boban/.i3/xbmicons/ac.xbm","color": "\#0481F0","full_text": "${uptime_short} "},
+#{"full_text" : "cpu","icon": "/home/boban/.i3/xbmicons/cpu.xbm","color": "\#FF9B9E","full_text": " CPU [${cpu cpu1}%, ${cpu cpu2}%  ${cpu cpu3}%, ${cpu cpu4}%] "},
+{"full_text" : " ${execi 1200 echo $(($(cat /sys/devices/platform/coretemp.0/hwmon/hwmon*/temp2_input) / 1000))}°C","color":"\#BABA00","icon": "/home/boban/.i3/xbmicons/temp.xbm"},
+{"full_text" : " ${execi 1200 echo $(($(cat /sys/devices/platform/coretemp.0/hwmon/hwmon*/temp3_input) / 1000))}°C","color":"\#BABA00","icon": "/home/boban/.i3/xbmicons/temp.xbm"},
+{"full_text" : " ${execi 1200 echo $(($(cat /sys/devices/platform/coretemp.0/hwmon/hwmon*/temp4_input) / 1000))}°C","color":"\#BABA00","icon": "/home/boban/.i3/xbmicons/temp.xbm"},
+{"full_text" : " ${execi 1200 echo $(($(cat /sys/devices/platform/coretemp.0/hwmon/hwmon*/temp10_input) / 1000))}°C","color":"\#BABA00","icon": "/home/boban/.i3/xbmicons/temp.xbm"},
+#{"full_text" : " ${cpu}% ${if_existing /sys/devices/platform/coretemp.0/hwmon/hwmon*/temp10_input} ${execi 1200 echo $(($(cat /sys/devices/platform/coretemp.0/hwmon/hwmon*/temp1_input) / 1000))}°C ${else}${execi 1200 echo $(($(cat /sys/devices/platform/coretemp.0/hwmon/hwmon*/temp2_input) / 1000))}°C${endif}","color":"\#BABA00","icon": "/home/boban/.i3/xbmicons/temp.xbm"},
+
+{"full_text": "enp1s0","icon": "/home/boban/.i3/xbmicons/net_wired.xbm","icon_color": "\#339966","color": "\#339966","full_text": " enp1s0 ${addr enp1s0} "},
+{"full_text": "time","icon": "/home/boban/.i3/xbmicons/clock.xbm","icon_color": "\#CFCFCF","color": "\#CFCFCF","full_text": " ${time  %d-%m-%Y} ${time %H:%M}"}
+],

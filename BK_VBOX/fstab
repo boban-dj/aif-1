@@ -1,0 +1,12 @@
+# /dev/sdb3
+UUID=cf2474b0-3901-4d8c-99ac-00575413a7d6	/         	ext4      	rw,noatime,discard,data=ordered	0 1
+
+# /dev/sdb2
+UUID=44eb2fe8-2153-43a2-84ee-e7232f04efb5	/boot     	ext4      	rw,noatime,discard,data=ordered	0 2
+
+# /dev/sdb5
+UUID=57d29d60-b799-4eff-9c19-89a79f392852	/home     	ext4      	rw,noatime,discard,data=ordered	0 2
+
+# /dev/sdb4
+#UUID=9d880c83-ff3a-43f9-be65-ca5627a797da	none      	swap      	defaults  	0 0
+
